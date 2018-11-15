@@ -1,0 +1,13 @@
+-
+  type: h2
+  innerHTML: rs:version
+-
+  type: small
+  innerHTML: rs:date
+-
+  type: h3
+  innerHTML: rs:title
+-
+  type: p
+  innerHTML: rs:description
+  

@@ -1,0 +1,14 @@
+version:
+  '1.0':
+    date: '2001-01-01'
+    title: First version.
+    description: This is the first version of this software.
+  '1.0.1':
+    date: '2001-01-02'
+    title: Bugg when sign in.
+    description: Fix problem when sign in with SITHS.
+  '1.1':
+    date: '2002-01-01'
+    title: Improved sign in.
+    description: Add username as an option to sign in.
+    
