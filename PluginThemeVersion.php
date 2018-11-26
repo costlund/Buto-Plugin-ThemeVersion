@@ -15,6 +15,11 @@ class PluginThemeVersion{
     krsort($version);
     foreach ($version as $key => $value) {
       $item = new PluginWfArray($value);
+      if(wfUser::hasRole('webmaster') && $item->get('webmaster')){
+        $item->set('webmaster_enabled', true);
+      }else{
+        $item->set('webmaster_enabled', false);
+      }
       $item->set('version', $key);
       $element = new pluginwfyml('/plugin/theme/version/element/history_item.yml');
       $element->setByTag($item->get());
