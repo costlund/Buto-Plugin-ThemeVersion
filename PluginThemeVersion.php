@@ -10,17 +10,42 @@ class PluginThemeVersion{
   }
   public function widget_history($data){
     $data = new PluginWfArray($data);
-    $version = new pluginwfyml($data->get('data/filename'));
-    $version = $version->get('version');
-    krsort($version);
-    foreach ($version as $key => $value) {
+    $data = new PluginWfYml($data->get('data/filename'));
+    $history = new PluginWfArray($data->get('history'));
+    /**
+     * Data fix.
+     */
+    foreach ($history->get() as $key => $value) {
       $item = new PluginWfArray($value);
       if(wfUser::hasRole('webmaster') && $item->get('webmaster')){
-        $item->set('webmaster_enabled', true);
+        $history->set("$key/webmaster_enabled", true);
       }else{
-        $item->set('webmaster_enabled', false);
+        $history->set("$key/webmaster_enabled", false);
       }
-      $item->set('version', $key);
+      $history->set("$key/version", $key);
+    }
+    /**
+     * New key to sort on.
+     */
+    $temp = array();
+    foreach ($history->get() as $key => $value) {
+      $a = preg_split('/[.]/', $key);
+      $new_key = null;
+      foreach ($a as $value2) {
+        $new_key .= ($value2+1000);
+      }
+      if(sizeof($a)==2){
+        $new_key .= 1000;
+      }
+      $temp[$new_key] = $value;
+    }
+    krsort($temp);
+    $history = new PluginWfArray($temp);
+    /**
+     * Render elements.
+     */
+    foreach ($history->get() as $key => $value){
+      $item = new PluginWfArray($value);
       $element = new pluginwfyml('/plugin/theme/version/element/history_item.yml');
       $element->setByTag($item->get());
       wfDocument::renderElement($element->get());
