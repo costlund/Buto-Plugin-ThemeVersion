@@ -15,10 +15,10 @@ class PluginThemeVersion{
     }
     $yml = new PluginWfYml($data->get('data/filename'));
     $history = new PluginWfArray($yml->get('history'));
-    /**
-     * Data fix.
-     */
     if($history->get()){
+      /**
+       * Data fix.
+       */
       foreach ($history->get() as $key => $value) {
         $item = new PluginWfArray($value);
         if(wfUser::hasRole('webmaster') && $item->get('webmaster')){
@@ -27,6 +27,7 @@ class PluginThemeVersion{
           $history->set("$key/webmaster_enabled", false);
         }
         $history->set("$key/version", $key);
+        $history->set("$key/description", str_replace("\n", '<br>', $item->get('description')) );
       }
       /**
        * New key to sort on.
