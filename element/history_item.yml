@@ -2,6 +2,11 @@
   type: hr
 -
   type: h2
+  settings:
+    i18n: false
+  innerHTML: rs:title
+-
+  type: h3
   innerHTML:
     -
       type: text
@@ -15,11 +20,6 @@
       attribute:
         style: 'float:right'
       innerHTML: rs:date
--
-  type: h3
-  settings:
-    i18n: false
-  innerHTML: rs:title
 -
   type: p
   settings:

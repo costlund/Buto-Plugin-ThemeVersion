@@ -28,6 +28,7 @@ class PluginThemeVersion{
         }
         $history->set("$key/version", $key);
         $history->set("$key/description", str_replace("\n", '<br>', $item->get('description')) );
+        $history->set("$key/webmaster", str_replace("\n", '<br>', $item->get('webmaster')) );
       }
       /**
        * New key to sort on.
