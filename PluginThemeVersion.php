@@ -19,6 +19,8 @@ class PluginThemeVersion{
       /**
        * Data fix.
        */
+      wfPlugin::includeonce('readme/parser');
+      $parser = new PluginReadmeParser();
       foreach ($history->get() as $key => $value) {
         $item = new PluginWfArray($value);
         if(wfUser::hasRole('webmaster') && $item->get('webmaster')){
@@ -27,8 +29,16 @@ class PluginThemeVersion{
           $history->set("$key/webmaster_enabled", false);
         }
         $history->set("$key/version", $key);
-        $history->set("$key/description", str_replace("\n", '<br>', $item->get('description')) );
-        $history->set("$key/webmaster", str_replace("\n", '<br>', $item->get('webmaster')) );
+        /**
+         * Replace € with #.
+         */
+        $item->set("description", str_replace("€", '#', $item->get('description')) );
+        $item->set("webmaster", str_replace("€", '#', $item->get('webmaster')) );
+        /**
+         * 
+         */
+        $history->set("$key/description", $parser->parse_text($item->get('description')) );
+        $history->set("$key/webmaster", $parser->parse_text($item->get('webmaster')) );
       }
       /**
        * New key to sort on.
