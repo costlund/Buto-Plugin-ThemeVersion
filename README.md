@@ -2,7 +2,7 @@
 Plugin to show software history registrated in yml file.
 
 
-##Widget
+## Widget
 ```
 type: widget
 data:
@@ -13,7 +13,7 @@ data:
 ```
 
 
-##Data
+## Data
 Param description and webmaster will be parsed by PluginReadmeParser. Character € will be replaced by #.
 ```
 history:
