@@ -1,5 +1,8 @@
-version: '1.4'
+version: '1.5'
 history:
+  '1.5':
+    date: '2019-09-09'
+    description: 'Add widget version.'
   '1.4':
     date: '2019-07-24'
     description: 'Text is parsed as readme-content.'

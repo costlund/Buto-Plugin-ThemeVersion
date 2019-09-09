@@ -9,6 +9,34 @@ class PluginThemeVersion{
     wfPlugin::includeonce('wf/yml');
   }
   public function widget_history($data){
+    $history = $this->getHistory($data);
+    $data = new PluginWfArray($data);
+    if($history->get('item')){
+      /**
+       * Render elements.
+       */
+      foreach ($history->get('item') as $key => $value){
+        $item = new PluginWfArray($value);
+        $element = new pluginwfyml('/plugin/theme/version/element/history_item.yml');
+        $element->setByTag($item->get());
+        wfDocument::renderElement($element->get());
+      }
+    }else{
+      /**
+       * If no data.
+       */
+      $element = new pluginwfyml('/plugin/theme/version/element/history_missing.yml');
+      $element->setByTag($data->get('data'));
+      wfDocument::renderElement($element->get());
+    }
+  }
+  public function widget_version($data){
+    $history = $this->getHistory($data);
+    $element = array();
+    $element[] = wfDocument::createHtmlElement('text', $history->get('version'));
+    wfDocument::renderElement($element);
+  }
+  private function getHistory($data){
     $data = new PluginWfArray($data);
     if(!wfFilesystem::fileExist(wfGlobals::getAppDir().$data->get('data/filename'))){
       throw new Exception("PluginThemeVersion.widget_history says: File ".$data->get('data/filename')." does not exist.");
@@ -56,23 +84,19 @@ class PluginThemeVersion{
         $temp[$new_key] = $value;
       }
       krsort($temp);
-      $history = new PluginWfArray($temp);
       /**
-       * Render elements.
+       * Current version.
        */
-      foreach ($history->get() as $key => $value){
-        $item = new PluginWfArray($value);
-        $element = new pluginwfyml('/plugin/theme/version/element/history_item.yml');
-        $element->setByTag($item->get());
-        wfDocument::renderElement($element->get());
+      $version = null;
+      foreach ($temp as $key => $value) {
+        $version = $value['version'];
+        break;
       }
-    }else{
       /**
-       * If no data.
+       * 
        */
-      $element = new pluginwfyml('/plugin/theme/version/element/history_missing.yml');
-      $element->setByTag($data->get('data'));
-      wfDocument::renderElement($element->get());
+      $history = new PluginWfArray(array('item' => $temp, 'version' => $version));
     }
+    return $history;
   }
 }

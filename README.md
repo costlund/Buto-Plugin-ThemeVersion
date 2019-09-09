@@ -3,11 +3,29 @@ Plugin to show software history registrated in yml file.
 
 
 ## Widget
+
+### History
+
+View a list of history.
+
 ```
 type: widget
 data:
   plugin: theme/version
   method: history
+  data:
+    filename: /theme/[theme]/data/version_history.yml
+```
+
+### Version
+
+Get current version.
+
+```
+type: widget
+data:
+  plugin: theme/version
+  method: version
   data:
     filename: /theme/[theme]/data/version_history.yml
 ```
