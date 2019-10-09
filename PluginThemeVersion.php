@@ -11,6 +11,29 @@ class PluginThemeVersion{
   }
   private function getHistoryAll(){
     $history = array();
+    /**
+     * Sys
+     */
+    $sys_manifest = new PluginWfYml(wfGlobals::getSysDir().'/manifest.yml');
+    if($sys_manifest->get('history')){
+      foreach ($sys_manifest->get('history') as $key => $value) {
+        $i2 = new PluginWfArray($value);
+        $history[] = array('name' => wfGlobals::getVersion(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'theme', 'title' => $i2->get('title'));
+      }
+    }
+    /**
+     * Theme
+     */
+    $theme_manifest = new PluginWfYml(wfGlobals::getAppDir().'/theme/'.wfGlobals::getTheme().'/config/manifest.yml');
+    if($theme_manifest->get('history')){
+      foreach ($theme_manifest->get('history') as $key => $value) {
+        $i2 = new PluginWfArray($value);
+        $history[] = array('name' => wfGlobals::getTheme(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'theme', 'title' => $i2->get('title'));
+      }
+    }
+    /**
+     * Plugin
+     */
     wfPlugin::includeonce('plugin/analysis');
     $plugin_analysis = new PluginPluginAnalysis();
     wfRequest::set('theme', wfGlobals::getTheme());
@@ -20,10 +43,13 @@ class PluginThemeVersion{
       if($i->get('manifest/history')){
         foreach ($i->get('manifest/history') as $key2 => $value2) {
           $i2 = new PluginWfArray($value2);
-          $history[] = array('plugin' => $i->get('name'), 'version' => $key2, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'plugin');
+          $history[] = array('name' => $i->get('name'), 'version' => $key2, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'plugin', 'title' => $i2->get('title'));
         }
       }
     }
+    /**
+     * 
+     */
     return $history;
   }
   public function widget_history_all($data){

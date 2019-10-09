@@ -19,7 +19,7 @@ data:
 
 ### History
 
-View a list of all history.
+View a list of all history for plugin, theme.
 
 ```
 type: widget
@@ -27,6 +27,22 @@ data:
   plugin: theme/version
   method: history_all
 ```
+
+Theme must have file /config/manifest.yml with param history.
+
+```
+history:
+  '1.1':
+    date: '2019-10-10'
+    title: Improvement
+    description: Improvement for this theme.
+  '1.0':
+    date: '2019-10-09'
+    title: First version.
+    description: First version of this theme.
+```
+
+
 
 ### Version
 
