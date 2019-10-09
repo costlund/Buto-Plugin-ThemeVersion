@@ -17,6 +17,17 @@ data:
     filename: /theme/[theme]/data/version_history.yml
 ```
 
+### History
+
+View a list of all history.
+
+```
+type: widget
+data:
+  plugin: theme/version
+  method: history_all
+```
+
 ### Version
 
 Get current version.

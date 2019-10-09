@@ -8,6 +8,28 @@ class PluginThemeVersion{
     wfPlugin::includeonce('wf/array');
     wfPlugin::includeonce('wf/yml');
   }
+  private function getHistoryAll(){
+    $history = array();
+    wfPlugin::includeonce('plugin/analysis');
+    $plugin_analysis = new PluginPluginAnalysis();
+    $plugin_analysis->setPlugins();
+    foreach ($plugin_analysis->plugins->get() as $key => $value) {
+      $i = new PluginWfArray($value);
+      if($i->get('manifest/history')){
+        foreach ($i->get('manifest/history') as $key2 => $value2) {
+          $i2 = new PluginWfArray($value2);
+          $history[] = array('plugin' => $i->get('name'), 'version' => $key2, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'plugin');
+        }
+      }
+    }
+    return $history;
+  }
+  public function widget_history_all($data){
+    $history = $this->getHistoryAll();
+    $widget = new PluginWfYml(__DIR__.'/element/history_all.yml');
+    $widget->setByTag(array('data' => $history));
+    wfDocument::renderElement($widget->get());
+  }
   public function widget_history($data){
     $history = $this->getHistory($data);
     $data = new PluginWfArray($data);
