@@ -7,6 +7,7 @@ class PluginThemeVersion{
   function __construct() {
     wfPlugin::includeonce('wf/array');
     wfPlugin::includeonce('wf/yml');
+    wfPlugin::enable('wf/table');
   }
   private function getHistoryAll(){
     $history = array();
