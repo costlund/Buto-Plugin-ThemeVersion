@@ -13,6 +13,7 @@ class PluginThemeVersion{
     $history = array();
     wfPlugin::includeonce('plugin/analysis');
     $plugin_analysis = new PluginPluginAnalysis();
+    wfRequest::set('theme', wfGlobals::getTheme());
     $plugin_analysis->setPlugins();
     foreach ($plugin_analysis->plugins->get() as $key => $value) {
       $i = new PluginWfArray($value);
