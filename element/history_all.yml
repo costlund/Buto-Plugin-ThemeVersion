@@ -7,9 +7,10 @@
       i18n: false
       field:
         date: Date
-        plugin: Name
+        name: Name
         version: Version
         type: Type
+        title: Title
         description: Description
       rs: rs:data
       datatable:
