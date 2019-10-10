@@ -18,7 +18,7 @@ class PluginThemeVersion{
     if($sys_manifest->get('history')){
       foreach ($sys_manifest->get('history') as $key => $value) {
         $i2 = new PluginWfArray($value);
-        $history[] = array('name' => wfGlobals::getVersion(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'theme', 'title' => $i2->get('title'));
+        $history[] = array('name' => wfGlobals::getVersion(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'system', 'title' => $i2->get('title'));
       }
     }
     /**
