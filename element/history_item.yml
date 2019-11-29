@@ -1,52 +1,59 @@
 -
   type: div
   attribute:
-    class: row
+    class: alert alert-secondary
   innerHTML:
     -
       type: div
       attribute:
-        class: col-8
+        class: row
       innerHTML:
         -
-          type: h2
-          innerHTML: 
+          type: div
+          attribute:
+            class: col-6
+          innerHTML:
             -
-              type: span
+              type: small
               innerHTML: rs:version
+        -
+          type: div
+          attribute:
+            class: col-6
+          innerHTML:
             -
-              type: span
-              innerHTML: '-'
+              type: small
+              attribute:
+                style: 'float:right'
+              innerHTML: rs:date
+        -
+          type: div
+          attribute:
+            class: col-12
+          innerHTML:
             -
-              type: span
+              type: h2
               innerHTML: rs:title
     -
       type: div
-      attribute:
-        class: col-4
       innerHTML:
-        -
-          type: small
-          attribute:
-            style: 'float:right'
-          innerHTML: rs:date
--
-  type: div
-  attribute:
-    class: alert alert-success
-  innerHTML:
-    -  
-      type: div
-      innerHTML: rs:description
--
-  type: div
-  settings:
-    enabled: rs:webmaster_enabled
-  attribute:
-    class: alert alert-info
-  innerHTML:
-    -  
+        -  
+          type: div
+          innerHTML: rs:description
+    -
       type: div
       settings:
-      innerHTML: rs:webmaster
+        enabled: rs:webmaster_enabled
+      attribute:
+        class: font-italic
+      innerHTML:
+        -
+          type: div
+          innerHTML: 
+            -
+              type: strong
+              innerHTML: Webmaster
+        -
+          type: div
+          innerHTML: rs:webmaster
   
