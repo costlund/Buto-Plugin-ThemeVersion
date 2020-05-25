@@ -60,21 +60,15 @@ class PluginThemeVersion{
   }
   public function widget_history($data){
     $history = $this->getHistory($data);
-    $data = new PluginWfArray($data);
     if($history->get('item')){
-      /**
-       * Render elements.
-       */
-      foreach ($history->get('item') as $key => $value){
-        $item = new PluginWfArray($value);
-        $element = new pluginwfyml('/plugin/theme/version/element/history_item.yml');
-        $element->setByTag($item->get());
-        wfDocument::renderElement($element->get());
-      }
+      $widget = new PluginWfYml(__DIR__.'/element/history.yml');
+      $widget->setByTag(array('data' => $history->get('item')));
+      wfDocument::renderElement($widget->get());
     }else{
       /**
        * If no data.
        */
+      $data = new PluginWfArray($data);
       $element = new pluginwfyml('/plugin/theme/version/element/history_missing.yml');
       $element->setByTag($data->get('data'));
       wfDocument::renderElement($element->get());
