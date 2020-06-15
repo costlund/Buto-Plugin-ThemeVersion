@@ -1,5 +1,9 @@
-version: '1.9.0'
+version: '1.9.1'
 history:
+  '1.9.1':
+    date: '2020-06-15'
+    title: Webmaster column
+    description: 'Add column Webmaster in table if user has this role.'
   '1.9.0':
     date: '2020-05-25'
     title: Theme history
