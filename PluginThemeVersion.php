@@ -18,7 +18,7 @@ class PluginThemeVersion{
     if($sys_manifest->get('history')){
       foreach ($sys_manifest->get('history') as $key => $value) {
         $i2 = new PluginWfArray($value);
-        $history[] = array('name' => wfGlobals::getVersion(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'system', 'title' => $i2->get('title'), 'webmaster' => $i2->get('webmaster'));
+        $history[] = array('name' => wfGlobals::getVersion(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $this->replace_line_break($i2->get('description')), 'type' => 'system', 'title' => $i2->get('title'), 'webmaster' => $this->replace_line_break($i2->get('webmaster')));
       }
     }
     /**
@@ -28,7 +28,7 @@ class PluginThemeVersion{
     if($theme_manifest->get('history')){
       foreach ($theme_manifest->get('history') as $key => $value) {
         $i2 = new PluginWfArray($value);
-        $history[] = array('name' => wfGlobals::getTheme(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'theme', 'title' => $i2->get('title'), 'webmaster' => $i2->get('webmaster'));
+        $history[] = array('name' => wfGlobals::getTheme(), 'version' => $key, 'date' => $i2->get('date'), 'description' => $this->replace_line_break($i2->get('description')), 'type' => 'theme', 'title' => $i2->get('title'), 'webmaster' => $this->replace_line_break($i2->get('webmaster')));
       }
     }
     /**
@@ -43,7 +43,7 @@ class PluginThemeVersion{
       if($i->get('manifest/history')){
         foreach ($i->get('manifest/history') as $key2 => $value2) {
           $i2 = new PluginWfArray($value2);
-          $history[] = array('name' => $i->get('name'), 'version' => $key2, 'date' => $i2->get('date'), 'description' => $i2->get('description'), 'type' => 'plugin', 'title' => $i2->get('title'), 'webmaster' => $i2->get('webmaster'));
+          $history[] = array('name' => $i->get('name'), 'version' => $key2, 'date' => $i2->get('date'), 'description' => $this->replace_line_break($i2->get('description')), 'type' => 'plugin', 'title' => $i2->get('title'), 'webmaster' => $this->replace_line_break($i2->get('webmaster')));
         }
       }
     }
@@ -51,6 +51,9 @@ class PluginThemeVersion{
      * 
      */
     return $history;
+  }
+  private function replace_line_break($v){
+    return str_replace("\n", '<br>', $v);
   }
   public function widget_history_all($data){
     $history = $this->getHistoryAll();

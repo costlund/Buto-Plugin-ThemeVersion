@@ -1,5 +1,9 @@
-version: '1.9.1'
+version: '1.9.2'
 history:
+  '1.9.2':
+    date: '2020-07-13'
+    title: Line break
+    description: 'Handle line break for value description and webmaster.'
   '1.9.1':
     date: '2020-06-15'
     title: Webmaster column
