@@ -7,11 +7,11 @@
       i18n: false
       field:
         date: Date
+        type: Type
         name: Name
         version: Version
         title: Title
         description: Description
-        type: Type
       rs: rs:data
       datatable:
         disabled: false
