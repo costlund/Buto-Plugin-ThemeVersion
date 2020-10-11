@@ -1,5 +1,9 @@
-version: 1.9.3
+version: 1.10.0
 history:
+  1.10.0:
+    date: '2020-10-11'
+    title: 'Settings'
+    description: 'Add settings param to widget history.'
   1.9.3:
     date: '2020-10-09'
     title: 'Move column'
@@ -69,7 +73,7 @@ plugin:
     version: 1.27.0
   -
     name: wf/table
-    version: 1.17.1
+    version: 1.18.1
 sys:
   -
     name: mercury

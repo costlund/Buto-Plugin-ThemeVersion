@@ -73,6 +73,40 @@ class PluginThemeVersion{
   public function widget_history($data){
     $history = $this->getHistory($data);
     if($history->get('item')){
+      /**
+       * 
+       */
+      foreach($history->get('item') as $k => $v){
+        $i = new PluginWfArray($v);
+        /**
+         * Rename param settings to row_settings according to PluginWfTable.
+         */
+        $history->set("item/$k/row_settings", $i->get('settings'));
+        $history->setUnset("item/$k/settings");
+        /**
+         * Add role webmaster if row_settings/role/item is set.
+         */
+        if($history->get("item/$k/row_settings/role/item")){
+          /**
+           * Add string with roles to webmaster param.
+           */
+          $roles = '';
+          foreach($history->get("item/$k/row_settings/role/item") as $v){
+            $j = new PluginWfArray($v);
+            $roles .= ", $v";
+          }
+          $roles = substr($roles, 2);
+          $roles = "($roles)";
+          $history->set("item/$k/webmaster", $history->get("item/$k/webmaster").' '.$roles);
+          /**
+           * Add role webmaster.
+           */
+          $history->set("item/$k/row_settings/role/item/", 'webmaster');
+        }
+      }
+      /**
+       * 
+       */
       $widget = new PluginWfYml(__DIR__.'/element/history.yml');
       /**
        * 

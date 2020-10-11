@@ -2,12 +2,10 @@
 Plugin to show software history registrated in yml file.
 
 
-## Widget
+## List widgets
 
 ### History
-
 View a list of history.
-
 ```
 type: widget
 data:
@@ -16,10 +14,24 @@ data:
   data:
     filename: /theme/[theme]/data/version_history.yml
 ```
+Retrict some items. In this example using role webdeveloper.
+```
+history:
+  1.0.0:
+    date: '2020-01-01'
+    title: ''
+    description: ''
+    webmaster: 'Only show this post if user has role webdeveloper. Role webmaster will always be able to see all data.'
+    settings:
+      role:
+        item:
+          - webdeveloper
+```
 
-### History
 
-View a list of all history for plugin, theme.
+### History all
+
+View a list of all history for plugin, theme and sys.
 
 ```
 type: widget
@@ -44,7 +56,7 @@ history:
 
 
 
-### Version
+## Version number
 
 Get current version.
 
