@@ -73,7 +73,7 @@ plugin:
     version: 1.37.0
   -
     name: wf/table
-    version: 1.21.0
+    version: 1.22.0
 sys:
   -
     name: mercury
