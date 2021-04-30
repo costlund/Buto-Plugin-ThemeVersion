@@ -28,6 +28,13 @@ history:
           - webdeveloper
 ```
 
+#### Email link
+By click on a row an email is composed on users email client.
+Set param application/title in theme settings to add it to email subject.
+```
+application:
+  title: Datos
+```
 
 ### History all
 

@@ -1,5 +1,9 @@
-version: 1.10.0
+version: 1.11.0
 history:
+  1.11.0:
+    date: '2021-04-30'
+    title: Mail
+    description: 'Send version data to email client when click on a row.'
   1.10.0:
     date: '2020-10-11'
     title: Settings

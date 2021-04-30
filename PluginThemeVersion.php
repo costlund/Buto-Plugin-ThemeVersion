@@ -1,8 +1,4 @@
 <?php
-/**
- * Plugin to show software history registrated in yml file.
- * Check example /data/example.yml.
- */
 class PluginThemeVersion{
   function __construct() {
     wfPlugin::includeonce('wf/array');
@@ -92,7 +88,6 @@ class PluginThemeVersion{
            */
           $roles = '';
           foreach($history->get("item/$k/row_settings/role/item") as $v){
-            $j = new PluginWfArray($v);
             $roles .= ", $v";
           }
           $roles = substr($roles, 2);
@@ -103,17 +98,34 @@ class PluginThemeVersion{
            */
           $history->set("item/$k/row_settings/role/item/", 'webmaster');
         }
+        /**
+         *
+         */
+        $history->set("item/$k/description_strip_tags", strip_tags($history->get("item/$k/description")));
+        /**
+         * Add webmaster text to description if user has role webmaster.
+         */
+        if(wfUser::hasRole('webmaster') && $history->get("item/$k/webmaster")){
+          $history->set("item/$k/description", $history->get("item/$k/description").' Webmaster: '.$history->get("item/$k/webmaster"));
+        }
+        /**
+         * Add row_click
+         */
+        $subject = "Version ".$history->get("item/$k/version")."";
+        if(wfGlobals::get('settings/application/title')){
+          $subject .= ' - '.wfGlobals::get('settings/application/title');
+        }
+        $body = "";
+        $body .= "%0D%0ADate: ".$history->get("item/$k/date");
+        $body .= "%0D%0ATitle: ".$history->get("item/$k/title");
+        $body .= "%0D%0ADescription: ".$history->get("item/$k/description_strip_tags");
+        $body .= "%0D%0AHost: ".wfServer::getHttpHost().".";
+        $history->set("item/$k/row_click", "window.location.href='mailto:?subject=$subject&body=$body'");
       }
       /**
        * 
        */
       $widget = new PluginWfYml(__DIR__.'/element/history.yml');
-      /**
-       * 
-       */
-      if(wfUser::hasRole('webmaster')){
-        $widget->set('0/data/data/field/webmaster', 'Webmaster');
-      }
       /**
        * 
        */

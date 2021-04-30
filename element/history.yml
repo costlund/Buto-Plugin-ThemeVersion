@@ -13,13 +13,5 @@
       rs: rs:data
       datatable:
         disabled: false
-        orderzzz:
-          -
-            - 1
-            - desc
-        searchingzzz:
-          disabled: true
-        exportzzz:
-          disabled: true
       class:
         table: table-sm table-striped table-hover
