@@ -116,6 +116,10 @@ class PluginThemeVersion{
           $subject .= ' - '.wfGlobals::get('settings/application/title');
         }
         $body = "";
+        $body .= "%0D%0AVersion: ".$history->get("item/$k/version");
+        if(wfGlobals::get('settings/application/title')){
+          $body .= "%0D%0AApplication title: ".wfGlobals::get('settings/application/title');
+        }
         $body .= "%0D%0ADate: ".$history->get("item/$k/date");
         $body .= "%0D%0ATitle: ".$history->get("item/$k/title");
         $body .= "%0D%0ADescription: ".$history->get("item/$k/description_strip_tags");
