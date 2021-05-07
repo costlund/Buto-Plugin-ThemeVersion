@@ -1,5 +1,9 @@
-version: 1.11.3
+version: 1.11.4
 history:
+  1.11.4:
+    date: '2021-05-07'
+    title: Versions
+    description: 'Versions update.'
   1.11.3:
     date: '2021-05-05'
     title: Versions
@@ -86,7 +90,7 @@ plugin:
     version: '1.1'
   -
     name: plugin/analysis
-    version: 1.40.0
+    version: 1.41.0
   -
     name: wf/table
     version: 1.22.1
