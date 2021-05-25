@@ -2,6 +2,8 @@ function PluginThemeVersion(){
   this.data = {row: null, application: null};
   this.row_click = function(){
     PluginWfBootstrapjs.modal({id: 'modal_version', content: '', label: 'Version'});
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Application'}, {type: 'div', innerHTML: this.data.application.title}]}], 'modal_version_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Host'}, {type: 'div', innerHTML: this.data.application.host}]}], 'modal_version_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Date'}, {type: 'div', innerHTML: this.data.row[0]}]}], 'modal_version_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Version'}, {type: 'div', innerHTML: this.data.row[1]}]}], 'modal_version_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Title'}, {type: 'div', innerHTML: this.data.row[2]}]}], 'modal_version_body');
