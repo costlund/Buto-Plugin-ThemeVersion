@@ -99,37 +99,18 @@ class PluginThemeVersion{
           $history->set("item/$k/row_settings/role/item/", 'webmaster');
         }
         /**
-         *
-         */
-        $history->set("item/$k/description_strip_tags", strip_tags($history->get("item/$k/description")));
-        /**
          * Add webmaster text to description if user has role webmaster.
          */
         if(wfUser::hasRole('webmaster') && $history->get("item/$k/webmaster")){
           $history->set("item/$k/description", $history->get("item/$k/description").' Webmaster: '.$history->get("item/$k/webmaster"));
         }
-        /**
-         * Add row_click
-         */
-        $subject = "Version ".$history->get("item/$k/version")."";
-        if(wfGlobals::get('settings/application/title')){
-          $subject .= ' - '.wfGlobals::get('settings/application/title');
-        }
-        $body = "";
-        $body .= "%0D%0AVersion: ".$history->get("item/$k/version");
-        if(wfGlobals::get('settings/application/title')){
-          $body .= "%0D%0AApplication title: ".wfGlobals::get('settings/application/title');
-        }
-        $body .= "%0D%0ADate: ".$history->get("item/$k/date");
-        $body .= "%0D%0ATitle: ".$history->get("item/$k/title");
-        $body .= "%0D%0ADescription: ".$history->get("item/$k/description_strip_tags");
-        $body .= "%0D%0AHost: ".wfServer::getHttpHost().".";
-        $history->set("item/$k/row_click", "window.location.href='mailto:?subject=$subject&body=$body'");
       }
       /**
        * 
        */
       $widget = new PluginWfYml(__DIR__.'/element/history.yml');
+      $json = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
+      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($json).";          }"), 'script');
       /**
        * 
        */
@@ -213,5 +194,8 @@ class PluginThemeVersion{
       $history = new PluginWfArray(array('item' => $temp, 'version' => $version));
     }
     return $history;
+  }
+  public function widget_include(){
+    wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
   }
 }

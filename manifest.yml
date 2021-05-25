@@ -1,5 +1,9 @@
-version: 1.11.6
+version: 1.12.0
 history:
+  1.12.0:
+    date: '2021-05-25'
+    title: Modal
+    description: 'When click on a row in widget history a modal is shown with data and email link. One has to include widget include to activate it.'
   1.11.6:
     date: '2021-05-12'
     title: Versions

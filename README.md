@@ -2,6 +2,16 @@
 Plugin to show software history registrated in yml file.
 
 
+## Include js
+Optional. When click on a row in widget history a modals is shown with an email link
+```
+type: widget
+data:
+  plugin: theme/version
+  method: include
+```
+
+
 ## List widgets
 
 ### History
@@ -29,7 +39,7 @@ history:
 ```
 
 #### Email link
-By click on a row an email is composed on users email client.
+By click on a row a modal is shown with an email link.
 Set param application/title in theme settings to add it to email subject.
 ```
 application:
@@ -101,5 +111,3 @@ history:
       - Some list text.
       - Some list text.
 ```
-
-

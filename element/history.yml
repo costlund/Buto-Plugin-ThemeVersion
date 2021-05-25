@@ -4,6 +4,7 @@
     plugin: wf/table
     method: render_many
     data:
+      id: dt_history
       i18n: false
       field:
         date: Date
@@ -15,3 +16,18 @@
         disabled: false
       class:
         table: table-sm table-striped table-hover
+-
+  type: script
+  innerHTML: |
+    if(typeof PluginThemeVersion=='object'){
+      $('#dt_history tbody').on( 'click', 'tr', function () {
+        PluginThemeVersion.data.row = datatable_dt_history.row( this ).data();
+        PluginThemeVersion.row_click();
+      });
+    }else{
+      console.log('Add PluginThemeVersion.widget_include to get more functions.');
+    }
+-
+  type: script
+  innerHTML: script:application_data
+

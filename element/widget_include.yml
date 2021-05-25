@@ -1,0 +1,8 @@
+-
+  type: widget
+  data:
+    plugin: 'wf/embed'
+    method: embed
+    data:
+      type: script
+      file: /plugin/theme/version/js/PluginThemeVersion.js
