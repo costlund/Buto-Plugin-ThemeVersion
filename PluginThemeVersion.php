@@ -1,9 +1,38 @@
 <?php
 class PluginThemeVersion{
+  private $data = null;
+  private $has_mysql = false;
+  private $mysql = null;
+  private $builder = null;
   function __construct() {
+    $this->data = wfPlugin::getPluginSettings('theme/version', true);
+    wfPlugin::includeonce('mysql/builder');
+    $this->builder = new PluginMysqlBuilder();
+    $this->builder->set_schema_file('/plugin/wf/account2/mysql/schema.yml');
+    $this->builder->set_table_name('account_role');
+    if($this->data->get('data/mysql')){
+      $this->has_mysql = true;
+    }
+    if($this->has_mysql){
+      wfPlugin::includeonce('wf/mysql');
+      $this->mysql = new PluginWfMysql();
+      $this->mysql->open($this->data->get('data/mysql'));
+    }
     wfPlugin::includeonce('wf/array');
     wfPlugin::includeonce('wf/yml');
     wfPlugin::enable('wf/table');
+  }
+  private function db_account_role_tester(){
+    if(!$this->has_mysql){
+      return array();
+    }
+    $criteria = new PluginWfArray();
+    $criteria->set('select_filter/0', 'account.email');
+    $criteria->set('join/0/field', 'account_id');
+    $criteria->set('where/account_role.role/value', 'tester');
+    $sql = $this->builder->get_sql_select($criteria->get());
+    $this->mysql->execute($sql);
+    return $this->mysql->getMany($sql);
   }
   private function getHistoryAll(){
     $history = array();
@@ -109,8 +138,16 @@ class PluginThemeVersion{
        * 
        */
       $widget = new PluginWfYml(__DIR__.'/element/history.yml');
-      $json = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
-      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($json).";          }"), 'script');
+      $application = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
+      $tester = $this->db_account_role_tester();
+      $test_users = '';
+      foreach($tester as $v){
+        $i = new PluginWfArray($v);
+        $test_users .= ','.$i->get('account.email');
+      }
+      $test_users = substr($test_users, 1);
+      $widget->setByTag(array('test_users' => $test_users));
+      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";        }"), 'script');
       /**
        * 
        */

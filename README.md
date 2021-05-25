@@ -111,3 +111,13 @@ history:
       - Some list text.
       - Some list text.
 ```
+
+## Tester
+Optional. Get tester email from table account if user has role tester. One has to set mysql param.
+```
+plugin:
+  theme:
+    version:
+      data:
+        mysql: 'yml:/../buto_data/theme/sit/kanin/mysql.yml'
+```

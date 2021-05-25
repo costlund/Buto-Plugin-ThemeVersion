@@ -1,4 +1,19 @@
 -
+  type: div
+  attribute:
+    class: text-center
+    style:
+      font-size: smaller
+  innerHTML:
+    -
+      type: span
+      attribute:
+        class: colon
+      innerHTML: 'Test users'
+    -
+      type: span
+      innerHTML: rs:test_users
+-
   type: widget
   data:
     plugin: wf/table

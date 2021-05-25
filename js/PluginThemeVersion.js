@@ -1,5 +1,5 @@
 function PluginThemeVersion(){
-  this.data = {row: null, application: null};
+  this.data = {row: null, application: null, tester: []};
   this.row_click = function(){
     PluginWfBootstrapjs.modal({id: 'modal_version', content: '', label: 'Version'});
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Application'}, {type: 'div', innerHTML: this.data.application.title}]}], 'modal_version_body');
@@ -11,6 +11,11 @@ function PluginThemeVersion(){
     PluginWfDom.render([{type: 'p', innerHTML: [{type: 'a', innerHTML: 'Send mail', attribute: {class: 'btn btn-secondary', onclick: 'PluginThemeVersion.send_mail()'}}]}], 'modal_version_body');
   }
   this.send_mail = function(){
+    var mailto = '';
+    for(i=0; i<this.data.tester.length; i++){
+      mailto += ';'+this.data.tester[i]['account.email'];
+    }
+    mailto = mailto.substr(1);
     var subject = 'Version '+this.data.row[1];
     if(this.data.application.title){
       subject += ' - '+this.data.application.title;
@@ -24,7 +29,7 @@ function PluginThemeVersion(){
     body += 'Version: '+this.data.row[1]+'%0D%0A';
     body += 'Title: '+this.data.row[2]+'%0D%0A';
     body += 'Description:%0D%0A '+description+'%0D%0A';
-    window.location.href='mailto:?subject='+subject+'&body='+body;
+    window.location.href='mailto:'+mailto+'?subject='+subject+'&body='+body;
   }
 }
 var PluginThemeVersion = new PluginThemeVersion();

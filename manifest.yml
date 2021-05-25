@@ -1,5 +1,9 @@
-version: 1.13.0
+version: 1.14.0
 history:
+  1.14.0:
+    date: '2021-05-25'
+    title: Tester
+    description: 'Get email from users with role tester.'
   1.13.0:
     date: '2021-05-25'
     title: Modal
