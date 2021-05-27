@@ -1,5 +1,9 @@
-version: 1.14.0
+version: 1.14.1
 history:
+  1.14.1:
+    date: '2021-05-26'
+    title: Plugin
+    description: 'Add plugin to schema.'
   1.14.0:
     date: '2021-05-25'
     title: Tester
@@ -114,6 +118,12 @@ plugin:
   -
     name: wf/table
     version: 1.23.0
+  -
+    name: mysql/builder
+    version: 1.5.0
+  -
+    name: wf/mysql
+    version: 1.14.1
 sys:
   -
     name: mercury
