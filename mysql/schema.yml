@@ -1,0 +1,25 @@
+tables:
+  theme_version_user:
+    description: 'User response on a theme version.'
+    field:
+      id:
+        primary_key: true
+        type: varchar(50)
+        not_null: true
+      version:
+        description: 'A theme version id (111.222.333).'
+        type: varchar(20)
+      response:
+        description: 'Do not understand, Working, Not working, Could not test'
+        type: varchar(20)
+extra:
+  field:
+    created_at:
+      type: timestamp
+      default: CURRENT_TIMESTAMP
+    updated_at:
+      type: timestamp
+    created_by:
+      type: varchar(50)
+    updated_by:
+      type: varchar(50)

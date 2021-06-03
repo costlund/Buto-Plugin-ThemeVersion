@@ -1,5 +1,9 @@
-version: 1.14.1
+version: 1.15.0
 history:
+  1.15.0:
+    date: '2021-06-03'
+    title: Tester
+    description: 'Tester can set response on a version.'
   1.14.1:
     date: '2021-05-26'
     title: Plugin

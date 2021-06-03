@@ -1,6 +1,5 @@
 # Buto-Plugin-ThemeVersion
-Plugin to show software history registrated in yml file.
-
+Plugin to show software history registrated in yml file. User with role tester can response on each version.
 
 ## Include js
 Optional. When click on a row in widget history a modals is shown with an email link
@@ -10,7 +9,6 @@ data:
   plugin: theme/version
   method: include
 ```
-
 
 ## List widgets
 
@@ -120,4 +118,17 @@ plugin:
     version:
       data:
         mysql: 'yml:/../buto_data/theme/sit/kanin/mysql.yml'
+```
+
+## Page
+Page registration to handle response.
+```
+plugin_modules:
+  theme_version:
+    plugin: 'theme/version'
+```
+
+## Schema
+```
+/plugin/theme/version/mysql/schema.yml
 ```

@@ -8,8 +8,6 @@ class PluginThemeVersion{
     $this->data = wfPlugin::getPluginSettings('theme/version', true);
     wfPlugin::includeonce('mysql/builder');
     $this->builder = new PluginMysqlBuilder();
-    $this->builder->set_schema_file('/plugin/wf/account2/mysql/schema.yml');
-    $this->builder->set_table_name('account_role');
     if($this->data->get('data/mysql')){
       $this->has_mysql = true;
     }
@@ -26,6 +24,8 @@ class PluginThemeVersion{
     if(!$this->has_mysql){
       return array();
     }
+    $this->builder->set_schema_file('/plugin/wf/account2/mysql/schema.yml');
+    $this->builder->set_table_name('account_role');
     $criteria = new PluginWfArray();
     $criteria->set('select_filter/0', 'account.email');
     $criteria->set('join/0/field', 'account_id');
@@ -33,6 +33,53 @@ class PluginThemeVersion{
     $sql = $this->builder->get_sql_select($criteria->get());
     $this->mysql->execute($sql);
     return $this->mysql->getMany($sql);
+  }
+  private function db_theme_version_user_all_working(){
+    if(!$this->has_mysql){
+      return new PluginWfArray();
+    }
+    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(account.email) as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response='Working' group by theme_version_user.version", 'version');
+    $rs = new PluginWfArray($rs['data']);
+    return $rs;
+  }
+  private function db_theme_version_user_all_issue(){
+    if(!$this->has_mysql){
+      return new PluginWfArray();
+    }
+    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(concat(account.email, '(', theme_version_user.response, ')') separator ', ') as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response<>'Working' group by theme_version_user.version", 'version');
+    $rs = new PluginWfArray($rs['data']);
+    return $rs;
+  }
+  private function db_theme_version_user_one(){
+    $created_by = wfUser::getSession()->get('user_id');
+    $version = wfRequest::get('version');
+    $rs = $this->mysql->runSql("select * from theme_version_user where created_by='$created_by' and version='$version'", null);
+    if($rs['num_rows']){
+      $rs = new PluginWfArray($rs['data'][0]);
+    }else{
+      $rs = new PluginWfArray();
+    }
+    return $rs;
+  }
+  private function db_theme_version_user_insert(){
+    $created_by = wfUser::getSession()->get('user_id');
+    $version = wfRequest::get('version');
+    $id = wfCrypt::getUid();
+    $this->mysql->runSql("insert into theme_version_user (id, created_by, version) values ('$id', '$created_by', '$version')");
+    return null;
+  }
+  private function db_theme_version_user_update(){
+    $created_by = wfUser::getSession()->get('user_id');
+    $response = wfRequest::get('response');
+    $version = wfRequest::get('version');
+    $this->mysql->runSql("update theme_version_user set response='$response' where created_by='$created_by' and version='$version'");
+    return null;
+  }
+  private function db_theme_version_user_delete(){
+    $created_by = wfUser::getSession()->get('user_id');
+    $version = wfRequest::get('version');
+    $this->mysql->runSql("delete from theme_version_user where created_by='$created_by' and version='$version'");
+    return null;
   }
   private function getHistoryAll(){
     $history = array();
@@ -98,6 +145,8 @@ class PluginThemeVersion{
   public function widget_history($data){
     $history = $this->getHistory($data);
     if($history->get('item')){
+      $theme_version_user_working = $this->db_theme_version_user_all_working();
+      $theme_version_user_issue = $this->db_theme_version_user_all_issue();
       /**
        * 
        */
@@ -128,6 +177,11 @@ class PluginThemeVersion{
           $history->set("item/$k/row_settings/role/item/", 'webmaster');
         }
         /**
+          * Add users working/issue
+          */
+          $history->set("item/$k/users_working", $theme_version_user_working->get($i->get('version').'/users'));
+          $history->set("item/$k/users_issue", $theme_version_user_issue->get($i->get('version').'/users'));
+          /**
          * Add webmaster text to description if user has role webmaster.
          */
         if(wfUser::hasRole('webmaster') && $history->get("item/$k/webmaster")){
@@ -234,5 +288,17 @@ class PluginThemeVersion{
   }
   public function widget_include(){
     wfDocument::renderElementFromFolder(__DIR__, __FUNCTION__);
+  }
+  public function page_response(){
+    if(!wfRequest::get('response')){
+      $this->db_theme_version_user_delete();
+    }else{
+      $rs = $this->db_theme_version_user_one();
+      if(!$rs->get('id')){
+        $this->db_theme_version_user_insert();
+      }
+      $this->db_theme_version_user_update();
+    }
+    exit('response...');
   }
 }

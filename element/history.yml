@@ -26,6 +26,8 @@
         version: Version
         title: Title
         description: Description
+        users_working: Working
+        users_issue: Issue
       rs: rs:data
       datatable:
         disabled: false
