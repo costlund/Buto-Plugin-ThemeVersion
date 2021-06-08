@@ -44,18 +44,18 @@ function PluginThemeVersion(){
       mailto += ';'+this.data.tester[i]['account.email'];
     }
     mailto = mailto.substr(1);
-    var subject = 'Version '+this.data.row[1];
+    var subject = 'Version '+this.data.row.version;
     if(this.data.application.title){
       subject += ' - '+this.data.application.title;
     }
-    var description = this.data.row[3];
+    var description = this.data.row.description;
     description = description.replace(/(<([^>]+)>)/gi, "");
     var body = '';
     body += 'Application: '+this.data.application.title+'%0D%0A';
     body += 'Host: '+this.data.application.host+'%0D%0A';
-    body += 'Date: '+this.data.row[0]+'%0D%0A';
-    body += 'Version: '+this.data.row[1]+'%0D%0A';
-    body += 'Title: '+this.data.row[2]+'%0D%0A';
+    body += 'Date: '+this.data.row.date+'%0D%0A';
+    body += 'Version: '+this.data.row.version+'%0D%0A';
+    body += 'Title: '+this.data.row.title+'%0D%0A';
     body += 'Description:%0D%0A '+description+'%0D%0A';
     window.location.href='mailto:'+mailto+'?subject='+subject+'&body='+body;
   }

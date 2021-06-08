@@ -1,5 +1,9 @@
-version: 1.17.1
+version: 1.17.2
 history:
+  1.17.2:
+    date: '2021-06-08'
+    title: Send mail
+    description: 'Adjustments in send mail.'
   1.17.1:
     date: '2021-06-08'
     title: History
