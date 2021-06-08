@@ -152,7 +152,8 @@ class PluginThemeVersion{
     wfDocument::renderElement($widget->get());
   }
   public function widget_history($data){
-    $history = $this->getHistory($data);
+    $plugin_data = wfPlugin::getPluginSettings('theme/version');
+    $history = $this->getHistory($plugin_data);
     if($history->get('item')){
       /**
        * 
@@ -212,10 +213,10 @@ class PluginThemeVersion{
   }
   private function getHistory($data){
     $data = new PluginWfArray($data);
-    if(!wfFilesystem::fileExist(wfGlobals::getAppDir().$data->get('data/filename'))){
-      throw new Exception("PluginThemeVersion.widget_history says: File ".$data->get('data/filename')." does not exist.");
+    if(!wfFilesystem::fileExist(wfGlobals::getAppDir().$data->get('data/history/filename'))){
+      throw new Exception("PluginThemeVersion.widget_history says: File ".$data->get('data/history/filename')." does not exist.");
     }
-    $yml = new PluginWfYml($data->get('data/filename'));
+    $yml = new PluginWfYml($data->get('data/history/filename'));
     $history = new PluginWfArray($yml->get('history'));
     if($history->get()){
       /**

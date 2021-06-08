@@ -13,14 +13,25 @@ data:
 ## List widgets
 
 ### History
-View a list of history.
+View a list of theme history.
+
+#### Theme settings
+Set filename where history file is.
+```
+plugin:
+  theme:
+    version:
+      enabled: true
+      data:
+        history:
+          filename: /theme/[theme]/config/manifest.yml
+```
+#### Widget
 ```
 type: widget
 data:
   plugin: theme/version
   method: history
-  data:
-    filename: /theme/[theme]/data/version_history.yml
 ```
 Retrict some items. In this example using role webdeveloper.
 ```
@@ -121,7 +132,7 @@ plugin:
 ```
 
 ## Page
-Page registration to handle response.
+Page registration to handle response and widget history.
 ```
 plugin_modules:
   theme_version:
