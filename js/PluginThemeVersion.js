@@ -1,5 +1,5 @@
 function PluginThemeVersion(){
-  this.data = {row: null, application: null, tester: []};
+  this.data = {row: null, application: null, tester: [], responses: null};
   this.row_click = function(){
     PluginWfBootstrapjs.modal({id: 'modal_version_row', content: '', label: 'Version'});
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Application'}, {type: 'div', innerHTML: this.data.application.title}]}], 'modal_version_row_body');
@@ -25,6 +25,9 @@ function PluginThemeVersion(){
       {type: 'a', innerHTML: '(no response)', attribute: {href: '#', onclick: 'PluginThemeVersion.response_click(this)', data_value: '', class: 'list-group-item list-group-item-action'}}
     ], attribute: {class: 'list-group'}}
     ], 'modal_version_response_body');
+    if(typeof this.data.responses[this.data.row[1]] != 'undefined'){
+      $("#modal_version_response [data_value='"+this.data.responses[this.data.row[1]].response+"']").addClass('active');
+    }
   }
   this.response_click = function(btn){
     $.get( "/theme_version/response?version="+this.data.row[1]+"&response="+btn.getAttribute('data_value'), function( data ) {

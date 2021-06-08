@@ -50,6 +50,15 @@ class PluginThemeVersion{
     $rs = new PluginWfArray($rs['data']);
     return $rs;
   }
+  private function db_theme_version_user_responses(){
+    if(!$this->has_mysql){
+      return new PluginWfArray();
+    }
+    $created_by = wfUser::getSession()->get('user_id');
+    $rs = $this->mysql->runSql("select theme_version_user.version, theme_version_user.response from theme_version_user where created_by='$created_by'", 'version');
+    $rs = ($rs['data']);
+    return $rs;
+  }
   private function db_theme_version_user_one(){
     $created_by = wfUser::getSession()->get('user_id');
     $version = wfRequest::get('version');
@@ -194,6 +203,7 @@ class PluginThemeVersion{
       $widget = new PluginWfYml(__DIR__.'/element/history.yml');
       $application = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
       $tester = $this->db_account_role_tester();
+      $responses = $this->db_theme_version_user_responses();
       $test_users = '';
       foreach($tester as $v){
         $i = new PluginWfArray($v);
@@ -201,7 +211,7 @@ class PluginThemeVersion{
       }
       $test_users = substr($test_users, 1);
       $widget->setByTag(array('test_users' => $test_users));
-      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";        }"), 'script');
+      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";     }"), 'script');
       /**
        * 
        */
