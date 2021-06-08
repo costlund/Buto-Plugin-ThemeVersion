@@ -154,49 +154,6 @@ class PluginThemeVersion{
   public function widget_history($data){
     $history = $this->getHistory($data);
     if($history->get('item')){
-      $theme_version_user_working = $this->db_theme_version_user_all_working();
-      $theme_version_user_issue = $this->db_theme_version_user_all_issue();
-      /**
-       * 
-       */
-      foreach($history->get('item') as $k => $v){
-        $i = new PluginWfArray($v);
-        /**
-         * Rename param settings to row_settings according to PluginWfTable.
-         */
-        $history->set("item/$k/row_settings", $i->get('settings'));
-        $history->setUnset("item/$k/settings");
-        /**
-         * Add role webmaster if row_settings/role/item is set.
-         */
-        if($history->get("item/$k/row_settings/role/item")){
-          /**
-           * Add string with roles to webmaster param.
-           */
-          $roles = '';
-          foreach($history->get("item/$k/row_settings/role/item") as $v){
-            $roles .= ", $v";
-          }
-          $roles = substr($roles, 2);
-          $roles = "($roles)";
-          $history->set("item/$k/webmaster", $history->get("item/$k/webmaster").' '.$roles);
-          /**
-           * Add role webmaster.
-           */
-          $history->set("item/$k/row_settings/role/item/", 'webmaster');
-        }
-        /**
-          * Add users working/issue
-          */
-          $history->set("item/$k/users_working", $theme_version_user_working->get($i->get('version').'/users'));
-          $history->set("item/$k/users_issue", $theme_version_user_issue->get($i->get('version').'/users'));
-          /**
-         * Add webmaster text to description if user has role webmaster.
-         */
-        if(wfUser::hasRole('webmaster') && $history->get("item/$k/webmaster")){
-          $history->set("item/$k/description", $history->get("item/$k/description").' Webmaster: '.$history->get("item/$k/webmaster"));
-        }
-      }
       /**
        * 
        */
@@ -226,6 +183,26 @@ class PluginThemeVersion{
       $element->setByTag($data->get('data'));
       wfDocument::renderElement($element->get());
     }
+  }
+  public function page_history(){
+    /**
+     * Including Datatable
+     */    
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    /**
+     * Data
+     */
+    $plugin_data = wfPlugin::getPluginSettings('theme/version');
+    $history_data = $this->getHistory($plugin_data);
+    $data = array();
+    foreach($history_data->get('item') as $v){
+      $data[] = $v;
+    }
+    /**
+     * Render all data
+     */    
+    exit($datatable->set_table_data($data));
   }
   public function widget_version($data){
     $history = $this->getHistory($data);
@@ -264,6 +241,49 @@ class PluginThemeVersion{
          */
         $history->set("$key/description", $parser->parse_text($item->get('description')) );
         $history->set("$key/webmaster", $parser->parse_text($item->get('webmaster')) );
+      }
+      /**
+       * user_working, user_issue
+       */
+      $theme_version_user_working = $this->db_theme_version_user_all_working();
+      $theme_version_user_issue = $this->db_theme_version_user_all_issue();
+      foreach($history->get() as $k => $v){
+        $i = new PluginWfArray($v);
+        /**
+         * Rename param settings to row_settings according to PluginWfTable.
+         */
+        $history->set("$k/row_settings", $i->get('settings'));
+        $history->setUnset("$k/settings");
+        /**
+         * Add role webmaster if row_settings/role/item is set.
+         */
+        if($history->get("$k/row_settings/role/item")){
+          /**
+           * Add string with roles to webmaster param.
+           */
+          $roles = '';
+          foreach($history->get("$k/row_settings/role/item") as $v){
+            $roles .= ", $v";
+          }
+          $roles = substr($roles, 2);
+          $roles = "($roles)";
+          $history->set("$k/webmaster", $history->get("$k/webmaster").' '.$roles);
+          /**
+           * Add role webmaster.
+           */
+          $history->set("$k/row_settings/role/item/", 'webmaster');
+        }
+        /**
+          * Add users working/issue
+          */
+          $history->set("$k/users_working", $theme_version_user_working->get($i->get('version').'/users'));
+          $history->set("$k/users_issue", $theme_version_user_issue->get($i->get('version').'/users'));
+          /**
+         * Add webmaster text to description if user has role webmaster.
+         */
+        if(wfUser::hasRole('webmaster') && $history->get("$k/webmaster")){
+          $history->set("$k/description", $history->get("$k/description").' Webmaster: '.$history->get("$k/webmaster"));
+        }
       }
       /**
        * New key to sort on.
@@ -309,6 +329,6 @@ class PluginThemeVersion{
       }
       $this->db_theme_version_user_update();
     }
-    exit('response...');
+    exit(wfRequest::get('response'));
   }
 }

@@ -30,6 +30,7 @@
         users_issue: Issue
       rs: rs:data
       datatable:
+        ajax: /theme_version/history
         disabled: false
       class:
         table: table-sm table-striped table-hover
