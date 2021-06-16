@@ -15,6 +15,14 @@ data:
 ### History
 View a list of theme history.
 
+## Page
+Page registration to handle response and widget history.
+```
+plugin_modules:
+  theme_version:
+    plugin: 'theme/version'
+```
+
 #### Theme settings
 Set filename where history file is.
 ```
@@ -129,14 +137,6 @@ plugin:
     version:
       data:
         mysql: 'yml:/../buto_data/theme/sit/kanin/mysql.yml'
-```
-
-## Page
-Page registration to handle response and widget history.
-```
-plugin_modules:
-  theme_version:
-    plugin: 'theme/version'
 ```
 
 ## Schema
