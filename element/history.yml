@@ -1,5 +1,10 @@
 -
   type: div
+  settings:
+    globals:
+      -
+        path_to_key: 'settings/plugin/i18n/translate_v1/settings/path'
+        value: '/plugin/theme/version/i18n'
   attribute:
     class: text-center
     style:
@@ -15,6 +20,11 @@
       innerHTML: rs:test_users
 -
   type: widget
+  settings:
+    globals:
+      -
+        path_to_key: 'settings/plugin/i18n/translate_v1/settings/path'
+        value: '/plugin/theme/version/i18n'
   data:
     plugin: wf/table
     method: render_many
