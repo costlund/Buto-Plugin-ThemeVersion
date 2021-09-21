@@ -38,7 +38,7 @@ class PluginThemeVersion{
     if(!$this->has_mysql){
       return new PluginWfArray();
     }
-    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(account.email) as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response='Working' group by theme_version_user.version", 'version');
+    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(concat(account.email, '(', theme_version_user.created_at, ')')) as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response='Working' group by theme_version_user.version", 'version');
     $rs = new PluginWfArray($rs['data']);
     return $rs;
   }
@@ -46,7 +46,7 @@ class PluginThemeVersion{
     if(!$this->has_mysql){
       return new PluginWfArray();
     }
-    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(concat(account.email, '(', theme_version_user.response, ')') separator ', ') as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response<>'Working' group by theme_version_user.version", 'version');
+    $rs = $this->mysql->runSql("select theme_version_user.version, group_concat(concat(account.email, '(', theme_version_user.response, ', ', theme_version_user.created_at, ')') separator ', ') as users from theme_version_user inner join account on theme_version_user.created_by=account.id where theme_version_user.response<>'Working' group by theme_version_user.version", 'version');
     $rs = new PluginWfArray($rs['data']);
     return $rs;
   }

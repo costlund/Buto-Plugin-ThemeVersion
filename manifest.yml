@@ -1,5 +1,9 @@
-version: 1.17.9
+version: 1.17.10
 history:
+  1.17.10:
+    date: '2021-09-21'
+    title: Created at
+    description: 'Add created at in table columns Working, Issue.'
   1.17.9:
     date: '2021-08-26'
     title: Versions
