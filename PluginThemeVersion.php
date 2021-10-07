@@ -152,38 +152,25 @@ class PluginThemeVersion{
     wfDocument::renderElement($widget->get());
   }
   public function widget_history($data){
-    $plugin_data = wfPlugin::getPluginSettings('theme/version');
-    $history = $this->getHistory($plugin_data);
-    if($history->get('item')){
-      /**
-       * 
-       */
-      $widget = new PluginWfYml(__DIR__.'/element/history.yml');
-      $application = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
-      $tester = $this->db_account_role_tester();
-      $responses = $this->db_theme_version_user_responses();
-      $test_users = '';
-      foreach($tester as $v){
-        $i = new PluginWfArray($v);
-        $test_users .= ','.$i->get('account.email');
-      }
-      $test_users = substr($test_users, 1);
-      $widget->setByTag(array('test_users' => $test_users));
-      $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";     }"), 'script');
-      /**
-       * 
-       */
-      $widget->setByTag(array('data' => $history->get('item')));
-      wfDocument::renderElement($widget->get());
-    }else{
-      /**
-       * If no data.
-       */
-      $data = new PluginWfArray($data);
-      $element = new pluginwfyml('/plugin/theme/version/element/history_missing.yml');
-      $element->setByTag($data->get('data'));
-      wfDocument::renderElement($element->get());
+    /**
+     * 
+     */
+    $widget = new PluginWfYml(__DIR__.'/element/history.yml');
+    $application = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
+    $tester = $this->db_account_role_tester();
+    $responses = $this->db_theme_version_user_responses();
+    $test_users = '';
+    foreach($tester as $v){
+      $i = new PluginWfArray($v);
+      $test_users .= ','.$i->get('account.email');
     }
+    $test_users = substr($test_users, 1);
+    $widget->setByTag(array('test_users' => $test_users));
+    $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";     }"), 'script');
+    /**
+     * 
+     */
+    wfDocument::renderElement($widget->get());
   }
   public function page_history(){
     /**

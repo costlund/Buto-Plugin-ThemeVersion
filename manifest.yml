@@ -1,5 +1,9 @@
-version: 1.17.12
+version: 1.17.13
 history:
+  1.17.13:
+    date: '2021-10-07'
+    title: Performance
+    description: 'Improvement in performance.'
   1.17.12:
     date: '2021-10-02'
     title: Versions
