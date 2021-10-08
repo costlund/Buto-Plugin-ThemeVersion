@@ -23,7 +23,7 @@ function PluginThemeVersion(){
     PluginWfDom.render([{type: 'div', innerHTML: [
       {type: 'a', innerHTML: 'Send mail', attribute: {class: 'btn btn-secondary', onclick: 'PluginThemeVersion.send_mail()'}},
       {type: 'a', innerHTML: 'Response', attribute: {class: 'btn btn-primary', onclick: 'PluginThemeVersion.response()', style: btn_response_style}}
-    ], attribute: {style: 'margin-top:40px'}}], 'modal_version_row_body');
+    ], attribute: {style: 'margin-top:40px;margin-bottom:40px'}}], 'modal_version_row_body');
   }
   this.response = function(){
     PluginWfBootstrapjs.modal({id: 'modal_version_response', content: null, label: 'Response', size: 'sm'});
