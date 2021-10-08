@@ -1,6 +1,16 @@
 function PluginThemeVersion(){
-  this.data = {row: null, application: null, tester: [], responses: null};
+  this.data = {row: null, application: null, tester: [], responses: null, has_mysql: false};
   this.row_click = function(){
+    /**
+     * 
+     */
+    var btn_response_style = 'display:none';
+    if(this.data.has_mysql){
+      btn_response_style = 'display:';
+    }
+    /**
+     * 
+     */
     PluginWfBootstrapjs.modal({id: 'modal_version_row', content: '', label: 'Version'});
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Application'}, {type: 'div', innerHTML: this.data.application.title}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Host'}, {type: 'div', innerHTML: this.data.application.host}]}], 'modal_version_row_body');
@@ -12,7 +22,7 @@ function PluginThemeVersion(){
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Issue'}, {type: 'div', innerHTML: this.data.row.users_issue}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [
       {type: 'a', innerHTML: 'Send mail', attribute: {class: 'btn btn-secondary', onclick: 'PluginThemeVersion.send_mail()'}},
-      {type: 'a', innerHTML: 'Response', attribute: {class: 'btn btn-primary', onclick: 'PluginThemeVersion.response()'}}
+      {type: 'a', innerHTML: 'Response', attribute: {class: 'btn btn-primary', onclick: 'PluginThemeVersion.response()', style: btn_response_style}}
     ], attribute: {style: 'margin-top:40px'}}], 'modal_version_row_body');
   }
   this.response = function(){

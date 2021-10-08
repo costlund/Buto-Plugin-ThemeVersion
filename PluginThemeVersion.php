@@ -155,6 +155,13 @@ class PluginThemeVersion{
     /**
      * 
      */
+    $has_mysql = false;
+    if($this->has_mysql){
+      $has_mysql = true;
+    }
+    /**
+     * 
+     */
     $widget = new PluginWfYml(__DIR__.'/element/history.yml');
     $application = array('title' => wfGlobals::get('settings/application/title'), 'host' => wfServer::getHttpHost());
     $tester = $this->db_account_role_tester();
@@ -166,7 +173,7 @@ class PluginThemeVersion{
     }
     $test_users = substr($test_users, 1);
     $widget->setByTag(array('test_users' => $test_users));
-    $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";     }"), 'script');
+    $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";   PluginThemeVersion.data.has_mysql=".json_encode($has_mysql).";     }"), 'script');
     /**
      * 
      */
