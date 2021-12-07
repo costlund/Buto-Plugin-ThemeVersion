@@ -1,5 +1,9 @@
-version: 1.17.18
+version: 1.17.19
 history:
+  1.17.19:
+    date: '2021-12-07'
+    title: Versions
+    description: 'Versions update.'
   1.17.18:
     date: '2021-12-07'
     title: Versions
@@ -198,7 +202,7 @@ plugin:
     version: 1.2.0
   -
     name: plugin/analysis
-    version: 1.48.1
+    version: 1.49.1
   -
     name: wf/table
     version: 1.26.0
@@ -210,7 +214,7 @@ plugin:
     version: 1.14.6
   -
     name: datatable/datatable_1_10_18
-    version: 1.4.5
+    version: 1.4.6
 sys:
   -
     name: mercury
