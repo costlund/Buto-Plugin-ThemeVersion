@@ -48,7 +48,8 @@
   innerHTML: |
     if(typeof PluginThemeVersion=='object'){
       $('#dt_history tbody').on( 'click', 'tr', function () {
-        PluginThemeVersion.data.row = datatable_dt_history.row( this ).data();
+        PluginThemeVersion.data.row_index = datatable_dt_history.row( this ).index();
+        PluginThemeVersion.data.row_data = datatable_dt_history.row( this ).data();
         PluginThemeVersion.row_click();
       });
     }else{

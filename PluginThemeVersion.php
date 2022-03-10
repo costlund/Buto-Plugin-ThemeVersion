@@ -324,6 +324,16 @@ class PluginThemeVersion{
       }
       $this->db_theme_version_user_update();
     }
-    exit(wfRequest::get('response'));
+    $plugin_data = wfPlugin::getPluginSettings('theme/version');
+    $history_data = $this->getHistory($plugin_data);
+    $history_item = new PluginWfArray();
+    foreach($history_data->get('item') as $k => $v){
+      $i = new PluginWfArray($v);
+      if($i->get('version')){
+        $history_item = new PluginWfArray($i->get());
+        break;
+      }
+    }
+    exit(json_encode($history_item->get()));
   }
 }

@@ -1,5 +1,9 @@
-version: 1.17.22
+version: 1.18.0
 history:
+  1.18.0:
+    date: '2022-03-10'
+    title: Flow
+    description: 'Better flow when to set response.'
   1.17.22:
     date: '2022-02-07'
     title: Versions

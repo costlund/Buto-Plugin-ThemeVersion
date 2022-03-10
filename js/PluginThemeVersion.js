@@ -1,5 +1,5 @@
 function PluginThemeVersion(){
-  this.data = {row: null, application: null, tester: [], responses: null, has_mysql: false};
+  this.data = {row_index: null, row_data: null, application: null, tester: [], responses: null, has_mysql: false};
   this.row_click = function(){
     /**
      * 
@@ -14,12 +14,12 @@ function PluginThemeVersion(){
     PluginWfBootstrapjs.modal({id: 'modal_version_row', content: '', label: 'Version'});
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Application'}, {type: 'div', innerHTML: this.data.application.title}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Host'}, {type: 'div', innerHTML: this.data.application.host}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Date'}, {type: 'div', innerHTML: this.data.row.date}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Version'}, {type: 'div', innerHTML: this.data.row.version}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Title'}, {type: 'div', innerHTML: this.data.row.title}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Description'}, {type: 'div', innerHTML: this.data.row.description}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Working'}, {type: 'div', innerHTML: this.data.row.users_working}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Issue'}, {type: 'div', innerHTML: this.data.row.users_issue}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Date'}, {type: 'div', innerHTML: this.data.row_data.date}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Version'}, {type: 'div', innerHTML: this.data.row_data.version}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Title'}, {type: 'div', innerHTML: this.data.row_data.title}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Description'}, {type: 'div', innerHTML: this.data.row_data.description}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Working'}, {type: 'div', innerHTML: this.data.row_data.users_working, attribute: {id: 'version_row_users_working'}}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Issue'}, {type: 'div', innerHTML: this.data.row_data.users_issue, attribute: {id: 'version_row_users_issue'}}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [
       {type: 'a', innerHTML: 'Send mail', attribute: {class: 'btn btn-secondary', onclick: 'PluginThemeVersion.send_mail()'}},
       {type: 'a', innerHTML: 'Response', attribute: {class: 'btn btn-primary', onclick: 'PluginThemeVersion.response()', style: btn_response_style}}
@@ -35,17 +35,32 @@ function PluginThemeVersion(){
       {type: 'a', innerHTML: '(no response)', attribute: {href: '#', onclick: 'PluginThemeVersion.response_click(this)', data_value: '', class: 'list-group-item list-group-item-action'}}
     ], attribute: {class: 'list-group'}}
     ], 'modal_version_response_body');
-    if(typeof this.data.responses[this.data.row.version] != 'undefined'){
-      $("#modal_version_response [data_value='"+this.data.responses[this.data.row.version].response+"']").addClass('active');
+    if(typeof this.data.responses[this.data.row_data.version] != 'undefined'){
+      $("#modal_version_response [data_value='"+this.data.responses[this.data.row_data.version].response+"']").addClass('active');
     }
   }
   this.response_click = function(btn){
-    $.get( "/theme_version/response?version="+this.data.row.version+"&response="+btn.getAttribute('data_value'), function( data ) {
+    $.get( "/theme_version/response?version="+this.data.row_data.version+"&response="+btn.getAttribute('data_value'), function( data ) {
+      /**
+       * 
+       */
       $('#modal_version_response').modal('hide');
-      $('#modal_version_row').modal('hide');
+      /**
+       * 
+       */
       var table = $('#dt_history').DataTable();
-      table.ajax.reload();
-      PluginThemeVersion.data.responses[PluginThemeVersion.data.row.version] = {response: data};
+      data_json = JSON.parse(data);
+      PluginThemeVersion.data.row_data = data_json;
+      table.row(PluginThemeVersion.data.row_index).data( PluginThemeVersion.data.row_data ).draw();
+      /**
+       * 
+       */
+      document.getElementById('version_row_users_working').innerHTML = data_json.users_working;
+      document.getElementById('version_row_users_issue').innerHTML = data_json.users_issue;
+      /**
+       * 
+       */
+      PluginThemeVersion.data.responses[PluginThemeVersion.data.row_data.version] = {response: data};
     });    
   }
   this.send_mail = function(){
@@ -54,18 +69,18 @@ function PluginThemeVersion(){
       mailto += ';'+this.data.tester[i]['account.email'];
     }
     mailto = mailto.substr(1);
-    var subject = 'Version '+this.data.row.version;
+    var subject = 'Version '+this.data.row_data.version;
     if(this.data.application.title){
       subject += ' - '+this.data.application.title;
     }
-    var description = this.data.row.description;
+    var description = this.data.row_data.description;
     description = description.replace(/(<([^>]+)>)/gi, "");
     var body = '';
     body += 'Application: '+this.data.application.title+'%0D%0A';
     body += 'Host: '+this.data.application.host+'%0D%0A';
-    body += 'Date: '+this.data.row.date+'%0D%0A';
-    body += 'Version: '+this.data.row.version+'%0D%0A';
-    body += 'Title: '+this.data.row.title+'%0D%0A';
+    body += 'Date: '+this.data.row_data.date+'%0D%0A';
+    body += 'Version: '+this.data.row_data.version+'%0D%0A';
+    body += 'Title: '+this.data.row_data.title+'%0D%0A';
     body += 'Description:%0D%0A '+description+'%0D%0A';
     window.location.href='mailto:'+mailto+'?subject='+subject+'&body='+body;
   }
