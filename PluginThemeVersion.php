@@ -329,7 +329,7 @@ class PluginThemeVersion{
     $history_item = new PluginWfArray();
     foreach($history_data->get('item') as $k => $v){
       $i = new PluginWfArray($v);
-      if($i->get('version')){
+      if($i->get('version')==wfRequest::get('version')){
         $history_item = new PluginWfArray($i->get());
         break;
       }
