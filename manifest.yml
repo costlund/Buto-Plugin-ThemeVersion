@@ -1,5 +1,9 @@
-version: 1.18.2
+version: 1.18.3
 history:
+  1.18.3:
+    date: '2022-05-02'
+    title: Versions
+    description: 'Versions update.'
   1.18.2:
     date: '2022-04-07'
     title: Versions
@@ -229,7 +233,7 @@ plugin:
     version: 1.50.4
   -
     name: wf/table
-    version: 1.28.2
+    version: 1.30.0
   -
     name: mysql/builder
     version: 1.7.0
