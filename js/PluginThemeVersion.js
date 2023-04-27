@@ -70,6 +70,7 @@ function PluginThemeVersion(){
     }
     mailto = mailto.substr(1);
     var subject = 'Version '+this.data.row_data.version;
+    subject += ' ('+this.data.application.host+')';
     if(this.data.application.title){
       subject += ' - '+this.data.application.title;
     }

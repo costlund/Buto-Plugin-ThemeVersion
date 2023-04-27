@@ -1,5 +1,9 @@
-version: 1.18.16
+version: 1.18.17
 history:
+  1.18.17:
+    date: '2023-04-27'
+    title: Mail link
+    description: 'Add host to subject in mail link.'
   1.18.16:
     date: '2023-04-14'
     title: Versions
