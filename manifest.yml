@@ -1,5 +1,9 @@
-version: 1.18.18
+version: 1.18.19
 history:
+  1.18.19:
+    date: '2023-05-29'
+    title: Roles
+    description: 'Add roles in list. Removed from description. Add Working and Issue to mail.'
   1.18.18:
     date: '2023-05-29'
     title: Versions

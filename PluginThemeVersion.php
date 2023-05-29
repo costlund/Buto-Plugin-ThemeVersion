@@ -261,8 +261,7 @@ class PluginThemeVersion{
             $roles .= ", $v";
           }
           $roles = substr($roles, 2);
-          $roles = "($roles)";
-          $history->set("$k/webmaster", $history->get("$k/webmaster").' '.$roles);
+          $history->set("$k/webmaster", $history->get("$k/webmaster").''.$roles);
           /**
            * Add role webmaster.
            */
@@ -273,12 +272,6 @@ class PluginThemeVersion{
           */
           $history->set("$k/users_working", $theme_version_user_working->get($i->get('version').'/users'));
           $history->set("$k/users_issue", $theme_version_user_issue->get($i->get('version').'/users'));
-          /**
-         * Add webmaster text to description if user has role webmaster.
-         */
-        if(wfUser::hasRole('webmaster') && $history->get("$k/webmaster")){
-          $history->set("$k/description", $history->get("$k/description").' Webmaster: '.$history->get("$k/webmaster"));
-        }
       }
       /**
        * New key to sort on.
