@@ -134,7 +134,7 @@ class PluginThemeVersion{
     return $history;
   }
   private function replace_line_break($v){
-    return str_replace("\n", '<br>', $v);
+    return wfPhpfunc::str_replace("\n", '<br>', $v);
   }
   public function widget_history_all($data){
     $history = $this->getHistoryAll();
@@ -171,7 +171,7 @@ class PluginThemeVersion{
       $i = new PluginWfArray($v);
       $test_users .= ','.$i->get('account.email');
     }
-    $test_users = substr($test_users, 1);
+    $test_users = wfPhpfunc::substr($test_users, 1);
     $widget->setByTag(array('test_users' => $test_users));
     $widget->setByTag(array('application_data' => "if(typeof PluginThemeVersion=='object'){     PluginThemeVersion.data.application=".json_encode($application).";  PluginThemeVersion.data.tester=".json_encode($tester).";   PluginThemeVersion.data.responses=".json_encode($responses).";   PluginThemeVersion.data.has_mysql=".json_encode($has_mysql).";     }"), 'script');
     /**
@@ -229,8 +229,8 @@ class PluginThemeVersion{
         /**
          * Replace € with #.
          */
-        $item->set("description", str_replace("€", '#', $item->get('description')) );
-        $item->set("webmaster", str_replace("€", '#', $item->get('webmaster')) );
+        $item->set("description", wfPhpfunc::str_replace("€", '#', $item->get('description')) );
+        $item->set("webmaster", wfPhpfunc::str_replace("€", '#', $item->get('webmaster')) );
         /**
          * 
          */
@@ -260,7 +260,7 @@ class PluginThemeVersion{
           foreach($history->get("$k/row_settings/role/item") as $v){
             $roles .= ", $v";
           }
-          $roles = substr($roles, 2);
+          $roles = wfPhpfunc::substr($roles, 2);
           $history->set("$k/webmaster", $history->get("$k/webmaster").''.$roles);
           /**
            * Add role webmaster.
