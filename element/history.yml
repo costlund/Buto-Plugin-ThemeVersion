@@ -35,10 +35,10 @@
         date: Date
         version: Version
         title: Title
-        webmaster: Roles
         users_working: Working
         users_issue: Issue
         description: Description
+        webmaster: Webmaster
       datatable:
         ajax: /theme_version/history
         disabled: false

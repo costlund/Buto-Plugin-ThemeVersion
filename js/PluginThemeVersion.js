@@ -17,10 +17,10 @@ function PluginThemeVersion(){
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Date'}, {type: 'div', innerHTML: this.data.row_data.date}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Version'}, {type: 'div', innerHTML: this.data.row_data.version}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Title'}, {type: 'div', innerHTML: this.data.row_data.title}]}], 'modal_version_row_body');
-    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Roles'}, {type: 'div', innerHTML: this.data.row_data.webmaster, attribute: {id: 'version_row_webmaster'}}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Working'}, {type: 'div', innerHTML: this.data.row_data.users_working, attribute: {id: 'version_row_users_working'}}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Issue'}, {type: 'div', innerHTML: this.data.row_data.users_issue, attribute: {id: 'version_row_users_issue'}}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Description'}, {type: 'div', innerHTML: this.data.row_data.description}]}], 'modal_version_row_body');
+    PluginWfDom.render([{type: 'div', innerHTML: [{type: 'strong', innerHTML: 'Webmaster'}, {type: 'div', innerHTML: this.data.row_data.webmaster}]}], 'modal_version_row_body');
     PluginWfDom.render([{type: 'div', innerHTML: [
       {type: 'a', innerHTML: 'Send mail', attribute: {class: 'btn btn-secondary', onclick: 'PluginThemeVersion.send_mail()'}},
       {type: 'a', innerHTML: 'Response', attribute: {class: 'btn btn-primary', onclick: 'PluginThemeVersion.response()', style: btn_response_style}}
@@ -77,13 +77,14 @@ function PluginThemeVersion(){
     }
     var description = this.data.row_data.description;
     description = description.replace(/(<([^>]+)>)/gi, "");
+    var webmaster = this.data.row_data.webmaster;
+    webmaster = webmaster.replace(/(<([^>]+)>)/gi, "");
     var body = '';
     body += 'Application: '+this.data.application.title+'%0D%0A';
     body += 'Host: '+this.data.application.host+'%0D%0A';
     body += 'Date: '+this.data.row_data.date+'%0D%0A';
     body += 'Version: '+this.data.row_data.version+'%0D%0A';
     body += 'Title: '+this.data.row_data.title+'%0D%0A';
-    body += 'Roles: '+this.data.row_data.webmaster+'%0D%0A';
     if(!this.data.row_data.users_working){
       this.data.row_data.users_working = '';
     }
@@ -92,7 +93,8 @@ function PluginThemeVersion(){
     }
     body += 'Working: '+this.data.row_data.users_working+'%0D%0A';
     body += 'Issue: '+this.data.row_data.users_issue+'%0D%0A';
-    body += 'Description:%0D%0A '+description+'%0D%0A';
+    body += 'Description: '+description+'%0D%0A';
+    body += 'Webmaster: '+webmaster+'%0D%0A';
     window.location.href='mailto:'+mailto+'?subject='+subject+'&body='+body;
   }
 }
