@@ -12,8 +12,8 @@
         version: Version
         title: Title
         description: Description
-      rs: rs:data
       datatable:
         disabled: false
+        ajax: /theme_version/history_all
       class:
         table: table-sm table-striped table-hover

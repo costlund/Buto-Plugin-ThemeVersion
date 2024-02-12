@@ -137,19 +137,14 @@ class PluginThemeVersion{
     return wfPhpfunc::str_replace("\n", '<br>', $v);
   }
   public function widget_history_all($data){
-    $history = $this->getHistoryAll();
     $widget = new PluginWfYml(__DIR__.'/element/history_all.yml');
-    /**
-     * 
-     */
-    if(wfUser::hasRole('webmaster')){
-      $widget->set('0/data/data/field/webmaster', 'Webmaster');
-    }
-    /**
-     * 
-     */
-    $widget->setByTag(array('data' => $history));
     wfDocument::renderElement($widget->get());
+  }
+  public function page_history_all(){
+    $history = $this->getHistoryAll();
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    exit($datatable->set_table_data($history));
   }
   public function widget_history($data){
     /**
