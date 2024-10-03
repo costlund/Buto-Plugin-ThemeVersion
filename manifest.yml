@@ -1,5 +1,9 @@
-version: 1.20.0
+version: 1.21.0
 history:
+  1.21.0:
+    date: '2024-10-03'
+    title: Security
+    description: 'Protect page /history, /history_all if role settings is set.'
   1.20.0:
     date: '2024-02-12'
     title: History all 

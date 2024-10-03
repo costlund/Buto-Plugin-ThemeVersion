@@ -141,6 +141,14 @@ class PluginThemeVersion{
     wfDocument::renderElement($widget->get());
   }
   public function page_history_all(){
+    /**
+     * 
+     */
+    $plugin_data = wfPlugin::getPluginSettings('theme/version', true);
+    $this->protect_by_role($plugin_data);
+    /**
+     * 
+     */
     $history = $this->getHistoryAll();
     wfPlugin::includeonce('datatable/datatable_1_10_18');
     $datatable = new PluginDatatableDatatable_1_10_18();
@@ -174,6 +182,24 @@ class PluginThemeVersion{
      */
     wfDocument::renderElement($widget->get());
   }
+  private function protect_by_role($plugin_data){
+    wfPlugin::includeonce('datatable/datatable_1_10_18');
+    $datatable = new PluginDatatableDatatable_1_10_18();
+    $stop = false;
+    if($plugin_data->get('data/settings/role/item')){
+      $stop = true;
+      foreach($plugin_data->get('data/settings/role/item') as $v){
+        if(wfUser::hasRole($v)){
+          $stop = false;
+          break;
+        }
+      }
+    }
+    if($stop){
+      exit($datatable->set_table_data(array()));
+    }
+    return null;
+  }
   public function page_history(){
     /**
      * Including Datatable
@@ -183,8 +209,15 @@ class PluginThemeVersion{
     /**
      * Data
      */
-    $plugin_data = wfPlugin::getPluginSettings('theme/version');
-    $history_data = $this->getHistory($plugin_data);
+    $plugin_data = wfPlugin::getPluginSettings('theme/version', true);
+    /**
+     * If role item is set and to item matching user role we render empty data.
+     */
+    $this->protect_by_role($plugin_data);
+    /**
+     * 
+     */
+    $history_data = $this->getHistory($plugin_data->get());
     $data = array();
     foreach($history_data->get('item') as $v){
       $data[] = $v;
