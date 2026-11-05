@@ -116,7 +116,7 @@ class PluginThemeVersion{
      * Plugin
      */
     wfPlugin::includeonce('plugin/analysis');
-    $plugin_analysis = new PluginPluginAnalysis();
+    $plugin_analysis = new PluginPluginAnalysis(true);
     wfRequest::set('theme', wfGlobals::getTheme());
     $plugin_analysis->setPlugins();
     foreach ($plugin_analysis->plugins->get() as $key => $value) {

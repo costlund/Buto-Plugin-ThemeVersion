@@ -1,5 +1,9 @@
-version: 1.21.0
+version: 1.21.1
 history:
+  1.21.1:
+    date: '2026-11-05'
+    title: List
+    description: 'Add construct param to PluginPluginAnalysis.'
   1.21.0:
     date: '2024-10-03'
     title: Security
